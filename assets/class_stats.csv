@@ -1,0 +1,8 @@
+class,name,voxels,volume_mm3
+1,bronchioles,3200689,0.2048
+2,alveoli,112868104,7.2236
+3,vasculature,1380967,0.0884
+4,cancer,587373,0.0376
+5,nonexpanded,8337708,0.5336
+6,background,968602003,61.9905
+7,stroma,7829156,0.5011
