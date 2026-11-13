@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CODA Mouse Lung — 3D Digital Pathology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">CODA Lung</a>
+    <nav>
+      <a href="#method">Method</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#results">Results</a>
+      <a href="#viewer">3D</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Digital pathology · serial histology</p>
+        <h1>3D reconstruction of mouse lung at cellular resolution</h1>
+        <p class="lede">
+          Using CODA (Kiemen et al., Nature Methods 2022): registration, deep-learning tissue labelling,
+          and volumetric assembly from 150 serial H&amp;E whole-slide images.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#results">View results</a>
+          <a class="btn ghost" href="https://github.com/kainblue100" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="3D render placeholder">
+        <img id="hero-render" src="assets/hero.png" alt="3D lung tissue reconstruction" />
+      </div>
+    </section>
+
+    <section id="method" class="block">
+      <h2>Method</h2>
+      <p>
+        Digitized serial sections enable quantitative maps of tissue architecture. We apply the official
+        CODA workflow to the public mouse-lung sample dataset (20× NDPI, ~10&nbsp;µm section spacing).
+      </p>
+      <ul class="pillars">
+        <li><strong>Registration</strong> Nonlinear alignment of downsampled 1× stacks</li>
+        <li><strong>Segmentation</strong> DeepLab / ResNet50 multi-class tissue labels</li>
+        <li><strong>Volume</strong> Registered labels assembled into a 3D tissue matrix</li>
+      </ul>
+    </section>
+
+    <section id="pipeline" class="block">
+      <h2>Pipeline</h2>
+      <ol class="steps">
+        <li>Downsample NDPI → 10× / 5× / 1× TIFF (OpenSlide)</li>
+        <li>Tissue masks + elastic image registration (1×)</li>
+        <li>Train / apply semantic segmentation (10×)</li>
+        <li>Warp labels; build <code>volume.mat</code> (4&nbsp;µm/px)</li>
+        <li>Mesh + Blender Cycles visualization for the web</li>
+      </ol>
+      <p class="note">Independent run workspace: <code>coda_lungs_auto</code> · code package: CODA update 12-13-2023</p>
+    </section>
+
+    <section id="results" class="block">
+      <h2>Results</h2>
+      <div class="gallery">
+        <figure>
+          <img src="assets/z-projection.jpg" alt="Z-projection of labelled volume" />
+          <figcaption>Z-projection of non-background classes</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/check_registration.jpg" alt="Registration QC stack preview" />
+          <figcaption>Registration QC (elastic stack)</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/classification_check.jpg" alt="Classification overlay preview" />
+          <figcaption>Deep-learning classification check</figcaption>
+        </figure>
+      </div>
+      <div id="stats" class="stats">
+        <p class="muted">Class volume table will appear here when <code>class_stats.csv</code> is ready.</p>
+      </div>
+    </section>
+
+    <section id="viewer" class="block">
+      <h2>3D visualization</h2>
+      <p>Turntable / stills rendered in Blender (Cycles, AgX). Embed updates when frames are exported.</p>
+      <div class="viewer-frame">
+        <video id="turntable" controls playsinline loop muted poster="assets/hero.png">
+          <source src="assets/turntable.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <ul class="legend" id="legend">
+        <li><span style="background:#966317"></span> bronchioles</li>
+        <li><span style="background:#175096"></span> alveoli / nonexpanded</li>
+        <li><span style="background:#961f17"></span> vasculature</li>
+        <li><span style="background:#c7c493"></span> cancer</li>
+        <li><span style="background:#f2a7e3"></span> stroma</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Based on CODA · Kiemen Lab sample lung dataset · Showcase for <a href="https://github.com/kainblue100">kainblue100</a></p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
