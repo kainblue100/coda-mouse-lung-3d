@@ -92,7 +92,20 @@
         <video id="turntable" controls playsinline loop muted poster="assets/hero.png">
           <source src="assets/turntable.mp4" type="video/mp4" />
         </video>
+        <img id="turntable-gif" src="assets/turntable.gif" alt="3D lung turntable animation" hidden />
       </div>
+      <script>
+        (function () {
+          var v = document.getElementById('turntable');
+          var g = document.getElementById('turntable-gif');
+          if (!v || !g) return;
+          v.addEventListener('error', function () { v.hidden = true; g.hidden = false; });
+          // Prefer GIF when mp4 missing
+          fetch('assets/turntable.mp4', { method: 'HEAD' }).then(function (r) {
+            if (!r.ok) { v.hidden = true; g.hidden = false; }
+          }).catch(function () { v.hidden = true; g.hidden = false; });
+        })();
+      </script>
       <ul class="legend" id="legend">
         <li><span style="background:#966317"></span> bronchioles</li>
         <li><span style="background:#175096"></span> alveoli / nonexpanded</li>
